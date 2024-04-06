@@ -13,7 +13,6 @@
 package csms.cmd;
 
 import com.google.gson.Gson;
-import csms.vo.CertificateVo;
 import org.springframework.stereotype.Component;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -25,6 +24,8 @@ import java.security.MessageDigest;
 import java.security.cert.X509Certificate;
 import java.util.Enumeration;
 import java.util.concurrent.Callable;
+
+import csms.vo.CertificateVo;
 
 @Component
 @Command(name = "certificate")

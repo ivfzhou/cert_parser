@@ -12,8 +12,6 @@
 
 package csms;
 
-import csms.cmd.Certificate;
-import csms.cmd.Provision;
 import jakarta.annotation.Resource;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -22,6 +20,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.IFactory;
+
+import csms.cmd.Certificate;
+import csms.cmd.Provision;
 
 @SpringBootApplication
 @Command(

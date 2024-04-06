@@ -13,7 +13,6 @@
 package csms.cmd;
 
 import com.google.gson.Gson;
-import csms.vo.ProvisionVo;
 import org.springframework.stereotype.Component;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -25,6 +24,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
+
+import csms.vo.ProvisionVo;
 
 @Component
 @Command(name = "provision")
