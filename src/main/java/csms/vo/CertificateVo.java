@@ -23,9 +23,9 @@ public class CertificateVo {
 
     private String SHA1;
 
-    private Date expirationDate;
+    private Long expirationDate;
 
-    private Date creatationDate;
+    private Long creatationDate;
 
     private String bundleId;
 

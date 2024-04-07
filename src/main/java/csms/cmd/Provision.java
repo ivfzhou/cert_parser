@@ -13,6 +13,7 @@
 package csms.cmd;
 
 import com.google.gson.Gson;
+import csms.vo.ProvisionVo;
 import org.springframework.stereotype.Component;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -24,8 +25,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
-
-import csms.vo.ProvisionVo;
 
 @Component
 @Command(name = "provision")
@@ -49,13 +48,13 @@ public class Provision implements Callable<Integer> {
         // 解析 xml 数据
         Map<String, Object> plist = Plist.fromXml(text);
         ProvisionVo provisionVo = new ProvisionVo();
-        provisionVo.setExpirationDate((Date) plist.get("ExpirationDate"));
-        provisionVo.setCreationDate((Date) plist.get("CreationDate"));
+        provisionVo.setExpirationDate(((Date) plist.get("ExpirationDate")).getTime());
+        provisionVo.setCreationDate(((Date) plist.get("CreationDate")).getTime());
         provisionVo.setName((String) plist.get("Name"));
         provisionVo.setTeamName((String) plist.get("TeamName"));
         provisionVo.setUuid((String) plist.get("UUID"));
-        provisionVo.setTeamId(String.join(";", provisionVo.getTeamIdentifier()));
         provisionVo.setTeamIdentifier((List<String>) plist.get("TeamIdentifier"));
+        provisionVo.setTeamId(String.join(";", provisionVo.getTeamIdentifier()));
         provisionVo.setProvisionDevices((List<String>) plist.get("ProvisionedDevices"));
         provisionVo.setEntitlements((Map<String, Object>) plist.get("Entitlements"));
         if (provisionVo.getEntitlements() != null &&

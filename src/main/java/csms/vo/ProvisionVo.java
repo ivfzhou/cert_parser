@@ -21,9 +21,9 @@ import java.util.Map;
 @Data
 public class ProvisionVo {
 
-    private Date expirationDate;
+    private Long expirationDate;
 
-    private Date creationDate;
+    private Long creationDate;
 
     private String name;
 
@@ -40,4 +40,6 @@ public class ProvisionVo {
     private List<String> provisionDevices;
 
     private String bundleId;
+
+    private String text;
 }

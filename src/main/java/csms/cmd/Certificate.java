@@ -13,6 +13,7 @@
 package csms.cmd;
 
 import com.google.gson.Gson;
+import csms.vo.CertificateVo;
 import org.springframework.stereotype.Component;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -24,8 +25,6 @@ import java.security.MessageDigest;
 import java.security.cert.X509Certificate;
 import java.util.Enumeration;
 import java.util.concurrent.Callable;
-
-import csms.vo.CertificateVo;
 
 @Component
 @Command(name = "certificate")
@@ -66,12 +65,12 @@ public class Certificate implements Callable<Integer> {
             }
             certificateVo.setSHA1(sb.toString());
             // 时间
-            certificateVo.setExpirationDate(certificate.getNotAfter());
-            certificateVo.setCreatationDate(certificate.getNotBefore());
+            certificateVo.setExpirationDate(certificate.getNotAfter().getTime());
+            certificateVo.setCreatationDate(certificate.getNotBefore().getTime());
             // 组织等信息
             X500Principal principal = certificate.getSubjectX500Principal();
             String subject = principal.getName();
-            for (String v : subject.split(", ")) {
+            for (String v : subject.split(",")) {
                 if (v.startsWith("UID")) {
                     certificateVo.setBundleId(v.split("=")[1]);
                 } else if (v.startsWith("OU")) {
