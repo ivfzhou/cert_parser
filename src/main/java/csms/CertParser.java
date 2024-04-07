@@ -28,7 +28,6 @@ import csms.cmd.Provision;
 @Command(
         name = "cert_parser",
         mixinStandardHelpOptions = true,
-        version = "0.1.0",
         subcommands = {Certificate.class, Provision.class}
 )
 public class CertParser implements ApplicationRunner {
