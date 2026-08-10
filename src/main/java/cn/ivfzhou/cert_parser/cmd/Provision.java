@@ -10,7 +10,7 @@
  * See the Mulan PSL v2 for more details.
  */
 
-package cn.ivfzhou.cmd;
+package cn.ivfzhou.cert_parser.cmd;
 
 import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
@@ -25,7 +25,7 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import xmlwise.Plist;
 
-import cn.ivfzhou.vo.ProvisionVo;
+import cn.ivfzhou.cert_parser.vo.ProvisionVo;
 
 @Component
 @Command(name = "provision")

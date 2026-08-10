@@ -10,7 +10,7 @@
  * See the Mulan PSL v2 for more details.
  */
 
-package cn.ivfzhou.cmd;
+package cn.ivfzhou.cert_parser.cmd;
 
 import java.io.FileInputStream;
 import java.security.KeyStore;
@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
-import cn.ivfzhou.vo.CertificateVo;
+import cn.ivfzhou.cert_parser.vo.CertificateVo;
 
 @Component
 @Command(name = "certificate")

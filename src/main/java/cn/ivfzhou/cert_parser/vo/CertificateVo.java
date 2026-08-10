@@ -10,7 +10,7 @@
  * See the Mulan PSL v2 for more details.
  */
 
-package cn.ivfzhou.vo;
+package cn.ivfzhou.cert_parser.vo;
 
 import lombok.Data;
 
