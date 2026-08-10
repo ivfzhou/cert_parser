@@ -10,28 +10,34 @@
  * See the Mulan PSL v2 for more details.
  */
 
-package csms.vo;
+package cn.ivfzhou.vo;
 
 import lombok.Data;
-
-import java.util.Date;
 
 @Data
 public class CertificateVo {
 
+    // 私钥名称。
     private String privateKeyName;
 
+    // 证书SHA1指纹。
     private String SHA1;
 
+    // 证书过期时间（毫秒时间戳）。
     private Long expirationDate;
 
-    private Long creatationDate;
+    // 证书创建时间（毫秒时间戳）。
+    private Long creationDate;
 
+    // 应用 Bundle ID。
     private String bundleId;
 
+    // 团队 ID。
     private String teamId;
 
+    // 团队名称。
     private String teamName;
 
+    // 证书名称。
     private String cerName;
 }

@@ -10,36 +10,46 @@
  * See the Mulan PSL v2 for more details.
  */
 
-package csms.vo;
+package cn.ivfzhou.vo;
 
-import lombok.Data;
-
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import lombok.Data;
 
 @Data
 public class ProvisionVo {
 
+    // 过期时间（毫秒时间戳）。
     private Long expirationDate;
 
+    // 创建时间（毫秒时间戳）。
     private Long creationDate;
 
+    // 描述文件名称。
     private String name;
 
+    // 团队名称。
     private String teamName;
 
+    // 团队 ID。
     private String teamId;
 
+    // 描述文件UUID。
     private String uuid;
 
+    // 团队标识符列表。
     private List<String> teamIdentifier;
 
+    // 权限配置。
     private Map<String, Object> entitlements;
 
+    // 已注册设备列表。
     private List<String> provisionDevices;
 
+    // 应用 Bundle ID。
     private String bundleId;
 
+    // 描述文件原始文本内容。
     private String text;
 }

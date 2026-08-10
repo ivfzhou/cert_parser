@@ -10,21 +10,20 @@
  * See the Mulan PSL v2 for more details.
  */
 
-package csms.cmd;
+package cn.ivfzhou.cmd;
 
-import com.google.gson.Gson;
-import csms.vo.CertificateVo;
-import org.springframework.stereotype.Component;
-import picocli.CommandLine.Command;
-import picocli.CommandLine.Option;
-
-import javax.security.auth.x500.X500Principal;
 import java.io.FileInputStream;
 import java.security.KeyStore;
 import java.security.MessageDigest;
 import java.security.cert.X509Certificate;
-import java.util.Enumeration;
 import java.util.concurrent.Callable;
+
+import com.google.gson.Gson;
+import org.springframework.stereotype.Component;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
+
+import cn.ivfzhou.vo.CertificateVo;
 
 @Component
 @Command(name = "certificate")
@@ -39,9 +38,9 @@ public class Certificate implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
-        // 获取证书
+        // 获取证书。
         KeyStore pkcs12;
-        try (FileInputStream fis = new FileInputStream(filePath)) {
+        try (var fis = new FileInputStream(filePath)) {
             pkcs12 = KeyStore.getInstance("pkcs12");
             if (passwd != null) {
                 pkcs12.load(fis, passwd.toCharArray());
@@ -49,28 +48,28 @@ public class Certificate implements Callable<Integer> {
         }
 
         // 解析数据
-        Enumeration<String> aliases = pkcs12.aliases();
-        CertificateVo certificateVo = new CertificateVo();
+        var aliases = pkcs12.aliases();
+        var certificateVo = new CertificateVo();
         if (aliases.hasMoreElements()) {
-            String alias = aliases.nextElement();
+            var alias = aliases.nextElement();
             certificateVo.setPrivateKeyName(alias);
-            X509Certificate certificate = (X509Certificate) pkcs12.getCertificate(alias);
-            byte[] data = certificate.getEncoded();
-            // 计算 SHA1 值
-            MessageDigest sha1 = MessageDigest.getInstance("SHA-1");
-            byte[] digest = sha1.digest(data);
-            StringBuilder sb = new StringBuilder(digest.length * 2);
-            for (byte v : digest) {
+            var certificate = (X509Certificate) pkcs12.getCertificate(alias);
+            var data = certificate.getEncoded();
+            // 计算 SHA1 值。
+            var sha1 = MessageDigest.getInstance("SHA-1");
+            var digest = sha1.digest(data);
+            var sb = new StringBuilder(digest.length * 2);
+            for (var v : digest) {
                 sb.append(String.format("%02X", v));
             }
             certificateVo.setSHA1(sb.toString());
             // 时间
             certificateVo.setExpirationDate(certificate.getNotAfter().getTime());
-            certificateVo.setCreatationDate(certificate.getNotBefore().getTime());
+            certificateVo.setCreationDate(certificate.getNotBefore().getTime());
             // 组织等信息
-            X500Principal principal = certificate.getSubjectX500Principal();
-            String subject = principal.getName();
-            for (String v : subject.split(",")) {
+            var principal = certificate.getSubjectX500Principal();
+            var subject = principal.getName();
+            for (var v : subject.split(",")) {
                 if (v.startsWith("UID")) {
                     certificateVo.setBundleId(v.split("=")[1]);
                 } else if (v.startsWith("OU")) {
@@ -83,8 +82,9 @@ public class Certificate implements Callable<Integer> {
             }
         }
 
-        // 输出 JSON 数据到标准输出
+        // 输出 JSON 数据到标准输出。
         System.out.println(new Gson().toJson(certificateVo));
+
         return 0;
     }
 }

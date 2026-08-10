@@ -10,7 +10,7 @@
  * See the Mulan PSL v2 for more details.
  */
 
-package csms;
+package cn.ivfzhou;
 
 import jakarta.annotation.Resource;
 import org.springframework.boot.ApplicationArguments;
@@ -21,8 +21,8 @@ import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.IFactory;
 
-import csms.cmd.Certificate;
-import csms.cmd.Provision;
+import cn.ivfzhou.cmd.Certificate;
+import cn.ivfzhou.cmd.Provision;
 
 @SpringBootApplication
 @Command(

@@ -10,14 +10,7 @@
  * See the Mulan PSL v2 for more details.
  */
 
-package csms.cmd;
-
-import com.google.gson.Gson;
-import csms.vo.ProvisionVo;
-import org.springframework.stereotype.Component;
-import picocli.CommandLine.Command;
-import picocli.CommandLine.Option;
-import xmlwise.Plist;
+package cn.ivfzhou.cmd;
 
 import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
@@ -25,6 +18,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
+
+import com.google.gson.Gson;
+import org.springframework.stereotype.Component;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
+import xmlwise.Plist;
+
+import cn.ivfzhou.vo.ProvisionVo;
 
 @Component
 @Command(name = "provision")
@@ -35,19 +36,19 @@ public class Provision implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
-        // 获取文件内容
+        // 获取文件内容。
         String text;
-        try (FileInputStream fis = new FileInputStream(filePath)) {
-            byte[] bs = fis.readAllBytes();
-            String s = new String(bs, StandardCharsets.UTF_8);
-            int begin = s.indexOf("<?xml");
-            int end = s.lastIndexOf("</plist>");
+        try (var fis = new FileInputStream(filePath)) {
+            var bs = fis.readAllBytes();
+            var s = new String(bs, StandardCharsets.UTF_8);
+            var begin = s.indexOf("<?xml");
+            var end = s.lastIndexOf("</plist>");
             text = s.substring(begin, end + "</plist>".length());
         }
 
-        // 解析 xml 数据
-        Map<String, Object> plist = Plist.fromXml(text);
-        ProvisionVo provisionVo = new ProvisionVo();
+        // 解析 xml 数据。
+        var plist = Plist.fromXml(text);
+        var provisionVo = new ProvisionVo();
         provisionVo.setExpirationDate(((Date) plist.get("ExpirationDate")).getTime());
         provisionVo.setCreationDate(((Date) plist.get("CreationDate")).getTime());
         provisionVo.setName((String) plist.get("Name"));
@@ -59,20 +60,21 @@ public class Provision implements Callable<Integer> {
         provisionVo.setEntitlements((Map<String, Object>) plist.get("Entitlements"));
         if (provisionVo.getEntitlements() != null &&
                 provisionVo.getEntitlements().containsKey("application-identifier")) {
-            String identifier = (String) provisionVo.getEntitlements().get("application-identifier");
-            String teamIdPrefix = provisionVo.getTeamId() + ".";
-            String bundleId = identifier.replace(teamIdPrefix, "");
+            var identifier = (String) provisionVo.getEntitlements().get("application-identifier");
+            var teamIdPrefix = provisionVo.getTeamId() + ".";
+            var bundleId = identifier.replace(teamIdPrefix, "");
             provisionVo.setBundleId(bundleId);
         } else if (provisionVo.getEntitlements() != null &&
                 provisionVo.getEntitlements().containsKey("com.apple.application-identifier")) {
-            String identifier = (String) provisionVo.getEntitlements().get("com.apple.application-identifier");
-            String teamIdPrefix = provisionVo.getTeamId() + ".";
-            String bundleId = identifier.replace(teamIdPrefix, "");
+            var identifier = (String) provisionVo.getEntitlements().get("com.apple.application-identifier");
+            var teamIdPrefix = provisionVo.getTeamId() + ".";
+            var bundleId = identifier.replace(teamIdPrefix, "");
             provisionVo.setBundleId(bundleId);
         }
 
-        // 输出 JSON 数据到标准输出
+        // 输出 JSON 数据到标准输出。
         System.out.println(new Gson().toJson(provisionVo));
+
         return 0;
     }
 }
